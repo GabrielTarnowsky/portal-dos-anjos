@@ -34,6 +34,7 @@ import { FAQ_DATA, TESTIMONIALS_DATA, PRODUCT_MODULES } from "./data";
 import CheckoutModal from "./components/CheckoutModal";
 import { motion, AnimatePresence } from "motion/react";
 
+
 export default function App() {
   const [timer, setTimer] = useState(384); // 6:24 in seconds (384)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -289,7 +290,7 @@ export default function App() {
               <div className="mt-16 max-w-5xl mx-auto rounded-3xl overflow-hidden border border-amber-500/20 shadow-2xl relative group">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a1428] via-transparent to-transparent z-10" />
                 <img 
-                  src="/src/assets/images/portal_dos_anjos_hero_1783098923011.jpg" 
+                  src="/assets/images/portal_dos_anjos_hero_1783098923011.jpg" 
                   alt="Portal dos Anjos Portal Dourado Celestial" 
                   className="w-full h-[300px] md:h-[480px] object-cover filter brightness-90 transition duration-700 group-hover:scale-102"
                 />
@@ -519,7 +520,7 @@ export default function App() {
                   <div className="bg-[#111827]/40 rounded-2xl p-6 border border-white/5 hover:border-violet-500/30 transition-all duration-300 flex flex-col items-center text-center group">
                     <div className="relative w-44 h-56 md:w-48 md:h-64 mb-6 transition-transform duration-500 group-hover:scale-105">
                       <img 
-                        src="/src/assets/images/planner_de_sucesso_1783099332423.jpg" 
+                        src="/assets/images/planner_de_sucesso_1783099332423.jpg" 
                         alt="Planner de sucesso" 
                         className="w-full h-full object-cover rounded-lg shadow-[0_12px_24px_rgba(0,0,0,0.6)] border border-white/10"
                         referrerPolicy="no-referrer"
@@ -538,7 +539,7 @@ export default function App() {
                   <div className="bg-[#111827]/40 rounded-2xl p-6 border border-white/5 hover:border-violet-500/30 transition-all duration-300 flex flex-col items-center text-center group">
                     <div className="relative w-44 h-56 md:w-48 md:h-64 mb-6 transition-transform duration-500 group-hover:scale-105">
                       <img 
-                        src="/src/assets/images/guia_judaico_enriquecimento_1783099344470.jpg" 
+                        src="/assets/images/guia_judaico_enriquecimento_1783099344470.jpg" 
                         alt="Guia Judaico do Enriquecimento Rápido" 
                         className="w-full h-full object-cover rounded-lg shadow-[0_12px_24px_rgba(0,0,0,0.6)] border border-white/10"
                         referrerPolicy="no-referrer"
