@@ -1,0 +1,6 @@
+{
+  "name": "Portal dos Anjos",
+  "description": "Página de vendas oficial e interativa do Portal dos Anjos com meditações, oráculo e ritual de prosperidade.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
