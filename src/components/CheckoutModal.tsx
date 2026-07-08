@@ -1,15 +1,25 @@
 import React, { useState } from "react";
-import { X, Shield, Lock, CreditCard, Landmark, CheckCircle, Copy, AlertCircle } from "lucide-react";
+import { X, Shield, Lock, CreditCard, Landmark, CheckCircle, Copy, AlertCircle, Barcode } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface CheckoutModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  productName?: string;
+  priceOriginal?: string;
+  priceCurrent?: string;
 }
 
-export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps) {
-  const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("pix");
+export default function CheckoutModal({ 
+  isOpen, 
+  onClose, 
+  onSuccess,
+  productName = "Acesso Portal dos Anjos (Completo)",
+  priceOriginal = "R$ 97,00",
+  priceCurrent = "R$ 24,90"
+}: CheckoutModalProps) {
+  const [paymentMethod, setPaymentMethod] = useState<"pix" | "card" | "boleto">("pix");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -19,8 +29,10 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
   const [step, setStep] = useState<"details" | "pay" | "success">("details");
   const [isProcessing, setIsProcessing] = useState(false);
   const [copiedPix, setCopiedPix] = useState(false);
+  const [copiedBoleto, setCopiedBoleto] = useState(false);
 
   const pixKey = "00020126580014BR.GOV.BCB.PIX0136e7f577b1-0538-42a7-bc0e-50fd8811655e520400005303986540524.905802BR5916Portal dos Anjos6009SAO PAULO62070503***6304D1B9";
+  const boletoCode = "34191.79001 01043.513184 91020.150008 7 97840000002490";
 
   const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,13 +100,13 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
               <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 mb-4">
                 <div className="flex justify-between items-center text-xs text-slate-500 mb-1">
                   <span>Produto:</span>
-                  <span className="font-medium text-slate-700">Acesso Portal dos Anjos (Completo)</span>
+                  <span className="font-medium text-slate-700">{productName}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="font-semibold text-slate-800">Total:</span>
                   <div className="text-right">
-                    <span className="text-xs text-slate-400 line-through mr-1.5">R$ 97,00</span>
-                    <span className="font-bold text-emerald-600">R$ 24,90</span>
+                    {priceOriginal && <span className="text-xs text-slate-400 line-through mr-1.5">{priceOriginal}</span>}
+                    <span className="font-bold text-emerald-600">{priceCurrent}</span>
                   </div>
                 </div>
               </div>
@@ -146,24 +158,34 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
           {step === "pay" && (
             <div className="space-y-6">
               {/* Selector */}
-              <div className="grid grid-cols-2 gap-3 p-1 bg-slate-100 rounded-xl">
+              <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-xl">
                 <button
+                  type="button"
                   onClick={() => setPaymentMethod("pix")}
-                  className={`flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-xs font-semibold transition cursor-pointer ${paymentMethod === "pix" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+                  className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 rounded-lg text-[10px] sm:text-xs font-semibold transition cursor-pointer ${paymentMethod === "pix" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
                 >
-                  <Landmark className="w-4 h-4 text-emerald-500" />
-                  Pagar via PIX
+                  <Landmark className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>Pix</span>
                 </button>
                 <button
+                  type="button"
                   onClick={() => setPaymentMethod("card")}
-                  className={`flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-xs font-semibold transition cursor-pointer ${paymentMethod === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+                  className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 rounded-lg text-[10px] sm:text-xs font-semibold transition cursor-pointer ${paymentMethod === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
                 >
-                  <CreditCard className="w-4 h-4 text-indigo-500" />
-                  Cartão de Crédito
+                  <CreditCard className="w-3.5 h-3.5 text-indigo-500" />
+                  <span>Cartão</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod("boleto")}
+                  className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 py-2 rounded-lg text-[10px] sm:text-xs font-semibold transition cursor-pointer ${paymentMethod === "boleto" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+                >
+                  <Barcode className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Boleto</span>
                 </button>
               </div>
 
-              {paymentMethod === "pix" ? (
+              {paymentMethod === "pix" && (
                 <div className="text-center space-y-4">
                   <div className="bg-slate-50 p-4 rounded-2xl inline-block border border-slate-100">
                     {/* Simulated elegant static QR code */}
@@ -189,6 +211,7 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
                     </p>
                     
                     <button
+                      type="button"
                       onClick={handleCopyPix}
                       className="inline-flex items-center gap-1.5 text-xs text-amber-600 hover:text-amber-700 font-semibold border border-amber-200/50 hover:bg-amber-50 px-3 py-1.5 rounded-lg transition"
                     >
@@ -198,6 +221,7 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
                   </div>
 
                   <button
+                    type="button"
                     onClick={handleSimulatePayment}
                     disabled={isProcessing}
                     className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition text-sm cursor-pointer shadow-lg shadow-emerald-500/15 flex items-center justify-center gap-2"
@@ -212,7 +236,9 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
                     )}
                   </button>
                 </div>
-              ) : (
+              )}
+
+              {paymentMethod === "card" && (
                 <div className="space-y-4">
                   <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-xs space-y-1 text-slate-500">
                     <p>💡 <strong>Dica:</strong> Pode preencher qualquer número fictício (ex: 4242 4242...) para simular.</p>
@@ -253,6 +279,7 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
                   </div>
 
                   <button
+                    type="button"
                     onClick={handleSimulatePayment}
                     disabled={isProcessing}
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition text-sm cursor-pointer shadow-lg shadow-indigo-500/15 flex items-center justify-center gap-2"
@@ -264,6 +291,54 @@ export default function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutMo
                       </>
                     ) : (
                       "Confirmar Simulação de Pagamento"
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {paymentMethod === "boleto" && (
+                <div className="text-center space-y-4">
+                  <div className="bg-slate-50 p-4 rounded-2xl inline-block border border-slate-100 w-full">
+                    <div className="flex flex-col items-center justify-center p-3 border border-dashed border-slate-200 bg-white rounded-lg">
+                      <Barcode className="w-16 h-8 text-slate-700 mb-2" />
+                      <span className="font-mono text-[10px] text-slate-600 break-all select-all font-bold">
+                        {boletoCode}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                      Copie o código de barras acima para simular a compra. Boletos levam até 3 dias úteis para compensar na realidade, mas na simulação o acesso é imediato!
+                    </p>
+                    
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(boletoCode);
+                        setCopiedBoleto(true);
+                        setTimeout(() => setCopiedBoleto(false), 2000);
+                      }}
+                      className="inline-flex items-center gap-1.5 text-xs text-amber-600 hover:text-amber-700 font-semibold border border-amber-200/50 hover:bg-amber-50 px-3 py-1.5 rounded-lg transition"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                      {copiedBoleto ? "Copiado!" : "Copiar Linha Digitável"}
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleSimulatePayment}
+                    disabled={isProcessing}
+                    className="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 rounded-xl transition text-sm cursor-pointer shadow-lg shadow-amber-500/15 flex items-center justify-center gap-2"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Processando Boleto...
+                      </>
+                    ) : (
+                      "Simular Confirmação do Boleto (Liberação Imediata)"
                     )}
                   </button>
                 </div>

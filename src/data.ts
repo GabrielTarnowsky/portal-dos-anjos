@@ -100,16 +100,16 @@ export const PRODUCT_MODULES: ProductModule[] = [
   },
   {
     id: "mod-4",
-    title: "Bônus: Frequências Angelicais Ativadoras",
-    subtitle: "Solfeggio & Conexão Harmônica",
-    description: "Áudios em alta definição combinando ondas solfeggio (432Hz e 528Hz) com visualizações conduzidas para induzir estados alfa, propiciando paz imediata e sonhos lúcidos.",
+    title: "Módulo IV: Conexão e Práticas Diárias",
+    subtitle: "Ativação Prática da Sua Fé",
+    description: "Incorpore o contato com o seu Anjo da Guarda na sua rotina de forma simples. Aprenda rituais matinais rápidos e técnicas para manter sua vibração financeira e protetora sempre no topo.",
     icon: "Music",
-    duration: "6 faixas de áudio premium",
+    duration: "4 aulas - 35 min totais",
     contents: [
-      "Frequência da Cura Emocional (432Hz)",
-      "Ativação do DNA e Milagres (528Hz)",
-      "Conexão Angélica Profunda (963Hz)",
-      "Paz Mental e Alívio da Ansiedade imediato"
+      "Prática de sintonização matinal rápida de 5 minutos",
+      "Como manter sua energia elevada mesmo sob estresse no trabalho",
+      "Orações rápidas de proteção para o seu dia a dia",
+      "Exercício de agradecimento ativo para multiplicar a prosperidade"
     ]
   }
 ];
